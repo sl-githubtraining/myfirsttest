@@ -23,26 +23,30 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests
 
+    - name: Create Python script
+      run: |
+        echo "import os" > fetch_audit_logs.py
+        echo "import requests" >> fetch_audit_logs.py
+        echo "from datetime import datetime" >> fetch_audit_logs.py
+        echo "" >> fetch_audit_logs.py
+        echo "TOKEN = os.environ['GITHUB_TOKEN']" >> fetch_audit_logs.py
+        echo "ORG = 'sl-githubtraining'" >> fetch_audit_logs.py
+        echo "URL = f'https://api.github.com/orgs/{ORG}/audit-log'" >> fetch_audit_logs.py
+        echo "HEADERS = {" >> fetch_audit_logs.py
+        echo "    'Authorization': f'Bearer {TOKEN}'," >> fetch_audit_logs.py
+        echo "    'Accept': 'application/vnd.github+json'" >> fetch_audit_logs.py
+        echo "}" >> fetch_audit_logs.py
+        echo "" >> fetch_audit_logs.py
+        echo "response = requests.get(URL, headers=HEADERS)" >> fetch_audit_logs.py
+        echo "if response.status_code == 200:" >> fetch_audit_logs.py
+        echo "    filename = f'audit_log_{datetime.now().strftime('%Y%m%d%H%M%S')}.json'" >> fetch_audit_logs.py
+        echo "    with open(filename, 'w') as file:" >> fetch_audit_logs.py
+        echo "        file.write(response.text)" >> fetch_audit_logs.py
+        echo "    print(f'Successfully saved audit logs to {filename}')" >> fetch_audit_logs.py
+        echo "else:" >> fetch_audit_logs.py
+        echo "    print(f'Failed to fetch audit logs: {response.status_code}')" >> fetch_audit_logs.py
+
     - name: Fetch audit logs
       env:
         GITHUB_TOKEN: ${{ secrets.PRIVATE_TOKEN }}
-      run: |
-        import os
-        import requests
-        from datetime import datetime
-
-        TOKEN = os.environ['GITHUB_TOKEN']
-        ORG = 'sl-githubtraining'
-        URL = f'https://api.github.com/orgs/{ORG}/audit-log'
-        HEADERS = {
-           application/vnd.github+json'
-        }
-
-        response = requests.get(URL, headers=HEADERS)
-        if response.status_code == 200:
-            filename = f'audit_log_{datetime.now().strftime("%Y%m%d%H%M%S")}.json'
-            with open(filename, 'w') as file:
-                file.write(response.text)
-            print(f'Successfully saved audit logs to {filename}')
-        else:
-            print(f'Failed to fetch audit logs: {response.status_code}')
+      run: python fetch_audit_logs.py
