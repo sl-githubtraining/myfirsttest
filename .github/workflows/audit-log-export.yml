@@ -1,37 +1,43 @@
 name: Extract GitHub Audit Logs
+
 on:
   schedule:
     - cron: '0 0 * * *'  # Runs daily at midnight
   workflow_dispatch:  # Allows manual triggering
+
 jobs:
   extract-audit-logs:
     runs-on: ubuntu-latest
-steps:
+
+    steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-- name: Set up Python
+
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
-- name: Install dependencies
+
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install requests
-- name: Fetch audit logs
+
+    - name: Fetch audit logs
       env:
         GITHUB_TOKEN: ${{ secrets.PRIVATE_TOKEN }}
       run: |
+        import os
         import requests
         from datetime import datetime
-TOKEN = '${{ secrets.PRIVATE_TOKEN }}'
-        'sl-githubtraining'
+
+        TOKEN = os.environ['GITHUB_TOKEN']
+        ORG = 'sl-githubtraining'
         URL = f'https://api.github.com/orgs/{ORG}/audit-log'
         HEADERS = {
             'Authorization': f'Bearer {TOKEN}',
             'Accept': 'application/vnd.github+json'
-        }
-response = requests.get(URL, headers=HEADERS)
-        if response.status_code == 200:
+               if response.status_code == 200:
             filename = f'audit_log_{datetime.now().strftime("%Y%m%d%H%M%S")}.json'
             with open(filename, 'w') as file:
                 file.write(response.text)
