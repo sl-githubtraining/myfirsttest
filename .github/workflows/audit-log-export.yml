@@ -35,9 +35,11 @@ jobs:
         ORG = 'sl-githubtraining'
         URL = f'https://api.github.com/orgs/{ORG}/audit-log'
         HEADERS = {
-            'Authorization': f'Bearer {TOKEN}',
-            'Accept': 'application/vnd.github+json'
-               if response.status_code == 200:
+           application/vnd.github+json'
+        }
+
+        response = requests.get(URL, headers=HEADERS)
+        if response.status_code == 200:
             filename = f'audit_log_{datetime.now().strftime("%Y%m%d%H%M%S")}.json'
             with open(filename, 'w') as file:
                 file.write(response.text)
