@@ -2,8 +2,7 @@ name: Export Audit Logs
 
 on:
   schedule:
-    # Runs at 00:00 UTC every day
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *' # Runs at 00:00 UTC every day
     workflow_dispatch:  # Allows manual triggering
     
 jobs:
