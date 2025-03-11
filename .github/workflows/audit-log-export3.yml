@@ -25,3 +25,10 @@ jobs:
       run: |
         curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
         https://api.github.com/orgs/YOUR_ORG_NAME/audit-log > audit-log.json
+
+    - name: Upload to Server
+      run: |
+        sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no audit-log.json user@your-server:/path/to/destination/   # Password to be added to Secrets
+
+    - name: Clean up
+      run: rm audit-log.json
