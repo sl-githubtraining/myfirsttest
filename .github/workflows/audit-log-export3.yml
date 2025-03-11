@@ -22,7 +22,5 @@ jobs:
         pip install requests
 
     - name: Fetch audit logs
-      env:
-        GITHUB_TOKEN: ${{ secrets.PRIVATE_TOKEN }}
       run: curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
         https://api.github.com/orgs/YOUR_ORG_NAME/audit-log > audit-log.json
