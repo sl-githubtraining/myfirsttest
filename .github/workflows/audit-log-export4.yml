@@ -24,23 +24,25 @@ jobs:
     - name: Fetch audit logs
       run: |
         curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-        https://api.github.com/orgs/sl-githubtraining/audit-log > audit-log.json
+        https://api.github.com/orgs/YOUR_ORG_NAME/audit-log > audit-log.json
 
     - name: Upload audit log as artifact
       uses: actions/upload-artifact@v2
-     -log.json
+      with:
+        name: audit-log
+        path: audit-log.json
 
     - name: Send email with audit log
       uses: dawidd6/action-send-mail@v3
       with:
-        server_address: smtp.absa.co.za
+       : smtp.your-email-provider.com
         server_port: 587
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
         subject: GitHub Audit Logs
         body: Please find the attached audit log.
-        to: sulaiman.lodewyk@absa.africa
-        from: sulaiman.lodewyk@absa.africa
+        to: recipient@example.com
+        from: sender@example.com
         attachments: audit-log.json
 
     - name: Clean up
