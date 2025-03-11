@@ -24,7 +24,7 @@ jobs:
     - name: Fetch audit logs
       run: |
         curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-        https://github.com/organizations/sl-githubtraining/settings/audit-log > audit-log.json
+        https://github.com/organizations/sl-githubtraining/settings/audit-log/export.json > audit-log.json
 
     - name: Upload audit log as artifact
       uses: actions/upload-artifact@v4
