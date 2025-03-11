@@ -27,7 +27,7 @@ jobs:
         https://api.github.com/orgs/YOUR_ORG_NAME/audit-log > audit-log.json
 
     - name: Upload audit log as artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: audit-log
         path: audit-log.json
