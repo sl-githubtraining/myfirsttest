@@ -1,4 +1,4 @@
-name: Extract GitHub Audit Logs - 5
+name: Extract GitHub Audit Logs
 
 on:
   workflow_dispatch:  # Allows manual triggering
@@ -23,15 +23,17 @@ jobs:
 
     - name: Fetch audit logs
       run: |
+        echo "Fetching audit logs..."
         curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
              -H "Accept: application/json" \
              -H "Accept-Encoding: gzip, deflate, br, zstd" \
              -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" \
              -H "Connection: keep-alive" \
-            -data; boundary=----WebKitFormBoundaryUfHoXG0cLjhlFsFQ" \
+             -H "Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryUfHoXG0cLjhlFsFQ" \
              -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36" \
              -H "X-Requested-With: XMLHttpRequest" \
-             https://github.com/orgs/sl-githubtraining/audit-log/export.json > audit-log.json
+             https://github.com/orgs/sl-githubtraining/audit-log/export.json > audit-log.json || { echo "Failed to fetch audit logs"; exit 1; }
+        echo "Audit logs fetched successfully."
 
     - name: Upload audit log as artifact
       uses: actions/upload-artifact@v4
@@ -53,4 +55,7 @@ jobs:
         attachments: audit-log.json
 
     - name: Clean up
-      run: rm audit-log.json
+      run: |
+        echo "Cleaning up..."
+        rm audit-log.json
+        echo "Cleanup completed."
