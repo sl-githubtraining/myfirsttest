@@ -24,7 +24,8 @@ jobs:
     - name: Fetch audit logs
       run: |
         echo "Fetching audit logs..."
-        curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        curl -X Post \
+             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
              -H "Accept: application/json" \
              -H "Accept-Encoding: gzip, deflate, br, zstd" \
              -H "Accept-Language: en-GB,en-US;q=0.9,en;q=0.8" \
