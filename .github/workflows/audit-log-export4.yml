@@ -35,7 +35,7 @@ jobs:
     - name: Send email with audit log
       uses: dawidd6/action-send-mail@v3
       with:
-       : smtp.your-email-provider.com
+        server_address: smtp.your-email-provider.com
         server_port: 587
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
