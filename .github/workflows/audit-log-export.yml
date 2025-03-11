@@ -29,7 +29,7 @@ jobs:
         echo "" >> fetch_audit_logs.py
         echo "TOKEN = os.environ['GITHUB_TOKEN']" >> fetch_audit_logs.py
         echo "ORG = 'sl-githubtraining'" >> fetch_audit_logs.py
-        echo "URL = f'https://api.github.com/orgs/{ORG}/audit-log'" >> fetch_audit_logs.py
+        echo "URL = f'https://api.github.com/orgs/sl-githubtraining/audit-log'" >> fetch_audit_logs.py
         echo "HEADERS = {" >> fetch_audit_logs.py
         echo "    'Authorization': f'Bearer {TOKEN}'," >> fetch_audit_logs.py
         echo "    'Accept': 'application/vnd.github+json'" >> fetch_audit_logs.py
